@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: binomial-arbitrage
+Version: 0.1.0
+Summary: Educational one-period, two-state binomial model: risk-neutral pricing, state prices, replication and explicit arbitrage detection.
+Author: Amogh
+License-Expression: MIT
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.26
+Requires-Dist: pandas>=2.1
+Requires-Dist: matplotlib>=3.8
+Provides-Extra: dev
+Requires-Dist: pytest>=8; extra == "dev"
+Dynamic: license-file
+
+# One-Period Binomial Model and Arbitrage Detection
+
+Status: work in progress. This README will be completed after the experiments have been run.

@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "description": "Baseline one-period market from Project 1, recalculated under the simple one-period rate convention R = 1 + r.",
+  "rate_convention": "r is the effective simple risk-free return over the single model period; R = 1 + r; no annualisation and no maturity parameter.",
+  "S0": 100,
+  "u": 1.12,
+  "d": 0.92,
+  "r": 0.02,
+  "K": 100,
+  "cash_payout": 1
+}

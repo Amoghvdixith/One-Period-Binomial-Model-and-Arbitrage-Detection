@@ -1,0 +1,450 @@
+{
+  "project": "One-Period Binomial Model and Arbitrage Detection",
+  "package_version": "0.1.0",
+  "model_convention": "r is the effective simple risk-free return over one model period; R = 1 + r; cash B at time 0 grows to B*R; no annualisation; no exp(r).",
+  "continuous_rate_conversion_note": "If starting from a continuous annual rate rc and maturity T: R = exp(rc*T), r = R - 1 (documented, not implemented).",
+  "execution_timestamp_utc": "2026-11-15T13:20:27Z",
+  "python_version": "3.14.4",
+  "python_implementation": "CPython",
+  "platform": "Windows",
+  "dependency_versions": {
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "matplotlib": "3.11.2",
+    "pytest": "9.2.0"
+  },
+  "tolerances": {
+    "near_boundary_relative_gap": 1e-10,
+    "min_relative_state_separation": 1e-12,
+    "narrow_relative_state_separation": 1e-06,
+    "payoff_abs_tol": 1e-09,
+    "quote_abs_tol": 1e-09,
+    "quote_rel_tol": 1e-09,
+    "replication_abs_tol": 1e-09
+  },
+  "config_files": {
+    "scenarios.json": {
+      "sha256": "b587a0485918200eb8095912d93e1ee399b0d9acb49275ae953ce2703e485ba0"
+    },
+    "baseline.json": {
+      "sha256": "fe2207d7a19ef142c464561de5a76d3c4a7ca138cbbbe7a86450c899f15c2d1d"
+    }
+  },
+  "input_configurations": {
+    "baseline": {
+      "schema_version": 1,
+      "description": "Baseline one-period market from Project 1, recalculated under the simple one-period rate convention R = 1 + r.",
+      "rate_convention": "r is the effective simple risk-free return over the single model period; R = 1 + r; no annualisation and no maturity parameter.",
+      "S0": 100,
+      "u": 1.12,
+      "d": 0.92,
+      "r": 0.02,
+      "K": 100,
+      "cash_payout": 1
+    },
+    "scenarios": {
+      "schema_version": 1,
+      "description": "Scenario and sensitivity configuration for the one-period binomial arbitrage experiments. All rates are effective simple one-period rates: R = 1 + r.",
+      "baseline_config": "baseline.json",
+      "tolerances": {
+        "near_boundary_relative_gap": 1e-10,
+        "min_relative_state_separation": 1e-12,
+        "narrow_relative_state_separation": 1e-06,
+        "payoff_abs_tol": 1e-09,
+        "quote_abs_tol": 1e-09,
+        "quote_rel_tol": 1e-09,
+        "replication_abs_tol": 1e-09
+      },
+      "scenarios": [
+        {
+          "id": "baseline_call",
+          "description": "Baseline European call",
+          "S0": 100,
+          "u": 1.12,
+          "d": 0.92,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 100
+          }
+        },
+        {
+          "id": "baseline_put",
+          "description": "Baseline European put",
+          "S0": 100,
+          "u": 1.12,
+          "d": 0.92,
+          "r": 0.02,
+          "claim": {
+            "type": "put",
+            "K": 100
+          }
+        },
+        {
+          "id": "baseline_digital",
+          "description": "Baseline cash-or-nothing digital call (pays 1 if S_T > K)",
+          "S0": 100,
+          "u": 1.12,
+          "d": 0.92,
+          "r": 0.02,
+          "claim": {
+            "type": "digital",
+            "K": 100,
+            "cash_payout": 1
+          }
+        },
+        {
+          "id": "deep_itm_call",
+          "description": "Deep in-the-money call (K below Sd)",
+          "S0": 100,
+          "u": 1.12,
+          "d": 0.92,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 80
+          }
+        },
+        {
+          "id": "deep_otm_call",
+          "description": "Deep out-of-the-money call (K above Su)",
+          "S0": 100,
+          "u": 1.12,
+          "d": 0.92,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 130
+          }
+        },
+        {
+          "id": "zero_strike_call",
+          "description": "Zero-strike call (pays the stock)",
+          "S0": 100,
+          "u": 1.12,
+          "d": 0.92,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 0
+          }
+        },
+        {
+          "id": "generic_negative_payoff",
+          "description": "Generic contingent claim with a negative up-state payoff",
+          "S0": 100,
+          "u": 1.12,
+          "d": 0.92,
+          "r": 0.02,
+          "claim": {
+            "type": "generic",
+            "payoff_up": -5,
+            "payoff_down": 10
+          }
+        },
+        {
+          "id": "negative_rate_no_arbitrage",
+          "description": "Negative risk-free rate, still d < R < u",
+          "S0": 100,
+          "u": 1.05,
+          "d": 0.9,
+          "r": -0.03,
+          "claim": {
+            "type": "call",
+            "K": 100
+          }
+        },
+        {
+          "id": "both_multipliers_above_one",
+          "description": "Both stock multipliers exceed 1 (d < R < u still holds)",
+          "S0": 100,
+          "u": 1.15,
+          "d": 1.01,
+          "r": 0.05,
+          "claim": {
+            "type": "call",
+            "K": 105
+          }
+        },
+        {
+          "id": "both_multipliers_below_one",
+          "description": "Both stock multipliers below 1 with negative rate (d < R < u still holds)",
+          "S0": 100,
+          "u": 0.99,
+          "d": 0.85,
+          "r": -0.05,
+          "claim": {
+            "type": "call",
+            "K": 90
+          }
+        },
+        {
+          "id": "r_below_d",
+          "description": "Risk-free growth strictly below the lower stock multiplier (R < d)",
+          "S0": 100,
+          "u": 1.25,
+          "d": 1.05,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 100
+          }
+        },
+        {
+          "id": "r_above_u",
+          "description": "Risk-free growth strictly above the upper stock multiplier (guide arbitrage case u=1.05, d=0.98, r=0.10)",
+          "S0": 100,
+          "u": 1.05,
+          "d": 0.98,
+          "r": 0.1,
+          "claim": {
+            "type": "call",
+            "K": 100
+          }
+        },
+        {
+          "id": "r_equal_d_exact",
+          "description": "Boundary case R exactly equal to d",
+          "S0": 100,
+          "u": 1.12,
+          "d": 1.02,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 100
+          }
+        },
+        {
+          "id": "r_equal_u_exact",
+          "description": "Boundary case R exactly equal to u",
+          "S0": 100,
+          "u": 1.12,
+          "d": 0.92,
+          "r": 0.12,
+          "claim": {
+            "type": "call",
+            "K": 100
+          }
+        },
+        {
+          "id": "near_boundary_inside",
+          "description": "R exceeds d by 1e-12: mathematically inside, numerically unresolved",
+          "S0": 100,
+          "u": 1.12,
+          "d": 1.019999999999,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 100
+          }
+        },
+        {
+          "id": "near_boundary_outside",
+          "description": "R falls below d by 1e-12: mathematically outside, numerically unresolved",
+          "S0": 100,
+          "u": 1.12,
+          "d": 1.020000000001,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 100
+          }
+        },
+        {
+          "id": "narrow_valid_separation",
+          "description": "Narrow but well-conditioned state separation (u - d = 0.0002)",
+          "S0": 100,
+          "u": 1.0201,
+          "d": 1.0199,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 102
+          }
+        },
+        {
+          "id": "narrow_separation_warning",
+          "description": "Very narrow state separation that triggers the conditioning warning (u - d = 1e-6)",
+          "S0": 100,
+          "u": 1.0200005,
+          "d": 1.0199995,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 102
+          }
+        },
+        {
+          "id": "ill_conditioned_rejected",
+          "description": "State separation below the conditioning limit (rejected)",
+          "S0": 100,
+          "u": 1.0200000000001,
+          "d": 1.02,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 100
+          }
+        },
+        {
+          "id": "degenerate_u_equals_d",
+          "description": "Degenerate single-state market u = d (rejected)",
+          "S0": 100,
+          "u": 1.05,
+          "d": 1.05,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 100
+          }
+        },
+        {
+          "id": "quote_overpriced_call",
+          "description": "Baseline call quoted above its replication cost",
+          "S0": 100,
+          "u": 1.12,
+          "d": 0.92,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 100
+          },
+          "quoted_price": 6.5
+        },
+        {
+          "id": "quote_underpriced_call",
+          "description": "Baseline call quoted below its replication cost",
+          "S0": 100,
+          "u": 1.12,
+          "d": 0.92,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 100
+          },
+          "quoted_price": 5.2
+        },
+        {
+          "id": "quote_matching_call",
+          "description": "Baseline call quoted at its replication cost (6/1.02 to 16 significant digits)",
+          "S0": 100,
+          "u": 1.12,
+          "d": 0.92,
+          "r": 0.02,
+          "claim": {
+            "type": "call",
+            "K": 100
+          },
+          "quoted_price": 5.882352941176471
+        },
+        {
+          "id": "quote_overpriced_put",
+          "description": "Baseline put quoted above its replication cost",
+          "S0": 100,
+          "u": 1.12,
+          "d": 0.92,
+          "r": 0.02,
+          "claim": {
+            "type": "put",
+            "K": 100
+          },
+          "quoted_price": 4.5
+        },
+        {
+          "id": "quote_in_arbitrage_market",
+          "description": "Quote in a market whose stock/cash pair already contains arbitrage (not assessed as a standalone quote arbitrage)",
+          "S0": 100,
+          "u": 1.05,
+          "d": 0.98,
+          "r": 0.1,
+          "claim": {
+            "type": "call",
+            "K": 100
+          },
+          "quoted_price": 1.0
+        }
+      ],
+      "sensitivity": {
+        "strike": {
+          "start": 70,
+          "stop": 130,
+          "step": 1
+        },
+        "rate": {
+          "start": -0.15,
+          "stop": 0.2,
+          "step": 0.005
+        },
+        "grid": {
+          "u_start": 0.8,
+          "u_stop": 1.4,
+          "u_step": 0.01,
+          "d_start": 0.6,
+          "d_stop": 1.2,
+          "d_step": 0.01
+        }
+      }
+    }
+  },
+  "counts": {
+    "scenarios": 25,
+    "scenarios_by_status": {
+      "arbitrage_R_ge_u": 3,
+      "arbitrage_R_le_d": 2,
+      "arbitrage_free": 16,
+      "invalid_input": 2,
+      "near_boundary_unresolved": 2
+    },
+    "rejected_invalid_input": 2,
+    "replication_checks": 23,
+    "replication_checks_passed": 23,
+    "underlying_arbitrage_verified": 6,
+    "underlying_arbitrage_verified_in_arbitrage_markets": 5,
+    "underlying_candidates_verified_in_unresolved_markets": 1,
+    "arbitrage_markets": 5,
+    "quote_scenarios": 5,
+    "quote_arbitrage_verified": 3,
+    "strike_points": 61,
+    "rate_points": 71,
+    "grid_points": 3721,
+    "grid_points_with_arbitrage_free_price": 1596
+  },
+  "max_abs_replication_error": 1.5987211554602254e-14,
+  "expected_rejections": [
+    {
+      "scenario_id": "ill_conditioned_rejected",
+      "reason": "ill-conditioned state separation: (u - d)/u = 9.804e-14 is below the conditioning limit 1.0e-12; replication would divide by a near-zero denominator"
+    },
+    {
+      "scenario_id": "degenerate_u_equals_d",
+      "reason": "u == d == 1.05: degenerate single-state market, outside the two-distinct-state scope"
+    }
+  ],
+  "warnings": [
+    "near_boundary_inside: near_boundary: relative gap 1.000e-11 < tolerance 1.0e-10 (R is mathematically inside the open interval (d, u))",
+    "near_boundary_outside: near_boundary: relative gap 1.000e-11 < tolerance 1.0e-10 (R is mathematically outside the open interval (d, u))",
+    "narrow_separation_warning: narrow_state_separation: (u - d)/u = 9.804e-07 < 1.0e-06; replication positions can be large relative to payoffs and results are sensitive to input rounding"
+  ],
+  "failures": [],
+  "outputs": [
+    "example_call.json",
+    "example_put.json",
+    "example_digital.json",
+    "scenario_summary.csv",
+    "replication_checks.csv",
+    "underlying_arbitrage.csv",
+    "quote_arbitrage.csv",
+    "strike_sensitivity.csv",
+    "rate_sensitivity.csv",
+    "up_down_grid.csv",
+    "run_metadata.json",
+    "figures/one_period_tree.png",
+    "figures/replication_payoffs.png",
+    "figures/call_put_vs_strike.png",
+    "figures/hedge_ratio_vs_strike.png",
+    "figures/price_vs_rate.png",
+    "figures/arbitrage_regions.png",
+    "figures/call_price_heatmap.png"
+  ],
+  "randomness": "none (deterministic; no Monte Carlo)"
+}

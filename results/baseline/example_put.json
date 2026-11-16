@@ -1,0 +1,87 @@
+{
+  "model_convention": "r is the effective simple risk-free return over one model period; R = 1 + r; cash B at time 0 grows to B*R; no annualisation; no exp(r).",
+  "inputs": {
+    "S0": 100,
+    "u": 1.12,
+    "d": 0.92,
+    "r": 0.02
+  },
+  "claim": {
+    "type": "put",
+    "label": "put(K=100)",
+    "K": 100.0,
+    "cash_payout": null,
+    "digital_rule": null
+  },
+  "classification": {
+    "status": "arbitrage_free",
+    "q_candidate": 0.5,
+    "q_is_valid_risk_neutral_probability": true,
+    "gap_R_minus_d": 0.1,
+    "gap_u_minus_R": 0.1,
+    "relative_gap": 0.5,
+    "exact_boundary": null,
+    "message": "d < R < u strictly: the market is arbitrage-free and q is a valid risk-neutral probability in (0, 1).",
+    "warnings": []
+  },
+  "derived": {
+    "R": 1.02,
+    "Su": 112.0,
+    "Sd": 92.0
+  },
+  "terminal_payoffs": {
+    "up": 0.0,
+    "down": 8.0
+  },
+  "pricing": {
+    "claim_name": "put(K=100)",
+    "payoff_up": 0.0,
+    "payoff_down": 8.0,
+    "market_status": "arbitrage_free",
+    "arbitrage_free_price": 3.9215686274509802,
+    "risk_neutral_q": 0.5,
+    "state_prices": {
+      "pi_up": 0.49019607843137253,
+      "pi_down": 0.49019607843137253,
+      "pi_up_plus_pi_down_minus_1_over_R": 0.0,
+      "pi_up_Su_plus_pi_down_Sd_minus_S0": 0.0
+    },
+    "state_price_valuation": 3.9215686274509802,
+    "algebraic_replication_cost": null,
+    "valuation_label": "arbitrage-free price (risk-neutral expectation discounted by R = 1 + r)",
+    "message": "d < R < u strictly: the market is arbitrage-free and q is a valid risk-neutral probability in (0, 1)."
+  },
+  "replication": {
+    "claim_name": "put(K=100)",
+    "payoff_up": 0.0,
+    "payoff_down": 8.0,
+    "delta": -0.4,
+    "cash_B": 43.92156862745098,
+    "initial_cost": 3.9215686274509802,
+    "portfolio_up": 0.0,
+    "portfolio_down": 8.0,
+    "error_up": 0.0,
+    "error_down": 0.0,
+    "max_abs_error": 0.0,
+    "linalg_delta": -0.39999999999999997,
+    "linalg_cash_B": 43.921568627450974,
+    "linalg_max_abs_diff": 7.105427357601002e-15,
+    "condition_number": 1029.9049506052393
+  },
+  "replication_check_passed": true,
+  "price_minus_replication_cost": 0.0,
+  "underlying_arbitrage": {
+    "market_status": "arbitrage_free",
+    "case": null,
+    "stock_shares": 0.0,
+    "cash_account": 0.0,
+    "initial_cost": 0.0,
+    "payoff_up": 0.0,
+    "payoff_down": 0.0,
+    "zero_initial_cost": true,
+    "nonnegative_payoffs": true,
+    "strict_gain_in_some_state": false,
+    "verified": false,
+    "message": "No stock/cash arbitrage: d < R < u."
+  }
+}

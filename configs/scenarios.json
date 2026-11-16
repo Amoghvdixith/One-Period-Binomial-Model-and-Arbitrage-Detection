@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "description": "Scenario and sensitivity configuration for the one-period binomial arbitrage experiments. All rates are effective simple one-period rates: R = 1 + r.",
+  "baseline_config": "baseline.json",
+  "tolerances": {
+    "near_boundary_relative_gap": 1e-10,
+    "min_relative_state_separation": 1e-12,
+    "narrow_relative_state_separation": 1e-6,
+    "payoff_abs_tol": 1e-9,
+    "quote_abs_tol": 1e-9,
+    "quote_rel_tol": 1e-9,
+    "replication_abs_tol": 1e-9
+  },
+  "scenarios": [
+    {"id": "baseline_call", "description": "Baseline European call", "S0": 100, "u": 1.12, "d": 0.92, "r": 0.02, "claim": {"type": "call", "K": 100}},
+    {"id": "baseline_put", "description": "Baseline European put", "S0": 100, "u": 1.12, "d": 0.92, "r": 0.02, "claim": {"type": "put", "K": 100}},
+    {"id": "baseline_digital", "description": "Baseline cash-or-nothing digital call (pays 1 if S_T > K)", "S0": 100, "u": 1.12, "d": 0.92, "r": 0.02, "claim": {"type": "digital", "K": 100, "cash_payout": 1}},
+    {"id": "deep_itm_call", "description": "Deep in-the-money call (K below Sd)", "S0": 100, "u": 1.12, "d": 0.92, "r": 0.02, "claim": {"type": "call", "K": 80}},
+    {"id": "deep_otm_call", "description": "Deep out-of-the-money call (K above Su)", "S0": 100, "u": 1.12, "d": 0.92, "r": 0.02, "claim": {"type": "call", "K": 130}},
+    {"id": "zero_strike_call", "description": "Zero-strike call (pays the stock)", "S0": 100, "u": 1.12, "d": 0.92, "r": 0.02, "claim": {"type": "call", "K": 0}},
+    {"id": "generic_negative_payoff", "description": "Generic contingent claim with a negative up-state payoff", "S0": 100, "u": 1.12, "d": 0.92, "r": 0.02, "claim": {"type": "generic", "payoff_up": -5, "payoff_down": 10}},
+    {"id": "negative_rate_no_arbitrage", "description": "Negative risk-free rate, still d < R < u", "S0": 100, "u": 1.05, "d": 0.90, "r": -0.03, "claim": {"type": "call", "K": 100}},
+    {"id": "both_multipliers_above_one", "description": "Both stock multipliers exceed 1 (d < R < u still holds)", "S0": 100, "u": 1.15, "d": 1.01, "r": 0.05, "claim": {"type": "call", "K": 105}},
+    {"id": "both_multipliers_below_one", "description": "Both stock multipliers below 1 with negative rate (d < R < u still holds)", "S0": 100, "u": 0.99, "d": 0.85, "r": -0.05, "claim": {"type": "call", "K": 90}},
+    {"id": "r_below_d", "description": "Risk-free growth strictly below the lower stock multiplier (R < d)", "S0": 100, "u": 1.25, "d": 1.05, "r": 0.02, "claim": {"type": "call", "K": 100}},
+    {"id": "r_above_u", "description": "Risk-free growth strictly above the upper stock multiplier (guide arbitrage case u=1.05, d=0.98, r=0.10)", "S0": 100, "u": 1.05, "d": 0.98, "r": 0.10, "claim": {"type": "call", "K": 100}},
+    {"id": "r_equal_d_exact", "description": "Boundary case R exactly equal to d", "S0": 100, "u": 1.12, "d": 1.02, "r": 0.02, "claim": {"type": "call", "K": 100}},
+    {"id": "r_equal_u_exact", "description": "Boundary case R exactly equal to u", "S0": 100, "u": 1.12, "d": 0.92, "r": 0.12, "claim": {"type": "call", "K": 100}},
+    {"id": "near_boundary_inside", "description": "R exceeds d by 1e-12: mathematically inside, numerically unresolved", "S0": 100, "u": 1.12, "d": 1.019999999999, "r": 0.02, "claim": {"type": "call", "K": 100}},
+    {"id": "near_boundary_outside", "description": "R falls below d by 1e-12: mathematically outside, numerically unresolved", "S0": 100, "u": 1.12, "d": 1.020000000001, "r": 0.02, "claim": {"type": "call", "K": 100}},
+    {"id": "narrow_valid_separation", "description": "Narrow but well-conditioned state separation (u - d = 0.0002)", "S0": 100, "u": 1.0201, "d": 1.0199, "r": 0.02, "claim": {"type": "call", "K": 102}},
+    {"id": "narrow_separation_warning", "description": "Very narrow state separation that triggers the conditioning warning (u - d = 1e-6)", "S0": 100, "u": 1.0200005, "d": 1.0199995, "r": 0.02, "claim": {"type": "call", "K": 102}},
+    {"id": "ill_conditioned_rejected", "description": "State separation below the conditioning limit (rejected)", "S0": 100, "u": 1.0200000000001, "d": 1.02, "r": 0.02, "claim": {"type": "call", "K": 100}},
+    {"id": "degenerate_u_equals_d", "description": "Degenerate single-state market u = d (rejected)", "S0": 100, "u": 1.05, "d": 1.05, "r": 0.02, "claim": {"type": "call", "K": 100}},
+    {"id": "quote_overpriced_call", "description": "Baseline call quoted above its replication cost", "S0": 100, "u": 1.12, "d": 0.92, "r": 0.02, "claim": {"type": "call", "K": 100}, "quoted_price": 6.50},
+    {"id": "quote_underpriced_call", "description": "Baseline call quoted below its replication cost", "S0": 100, "u": 1.12, "d": 0.92, "r": 0.02, "claim": {"type": "call", "K": 100}, "quoted_price": 5.20},
+    {"id": "quote_matching_call", "description": "Baseline call quoted at its replication cost (6/1.02 to 16 significant digits)", "S0": 100, "u": 1.12, "d": 0.92, "r": 0.02, "claim": {"type": "call", "K": 100}, "quoted_price": 5.882352941176471},
+    {"id": "quote_overpriced_put", "description": "Baseline put quoted above its replication cost", "S0": 100, "u": 1.12, "d": 0.92, "r": 0.02, "claim": {"type": "put", "K": 100}, "quoted_price": 4.50},
+    {"id": "quote_in_arbitrage_market", "description": "Quote in a market whose stock/cash pair already contains arbitrage (not assessed as a standalone quote arbitrage)", "S0": 100, "u": 1.05, "d": 0.98, "r": 0.10, "claim": {"type": "call", "K": 100}, "quoted_price": 1.00}
+  ],
+  "sensitivity": {
+    "strike": {"start": 70, "stop": 130, "step": 1},
+    "rate": {"start": -0.15, "stop": 0.20, "step": 0.005},
+    "grid": {
+      "u_start": 0.80, "u_stop": 1.40, "u_step": 0.01,
+      "d_start": 0.60, "d_stop": 1.20, "d_step": 0.01
+    }
+  }
+}

@@ -1,0 +1,24 @@
+scenario_id,market_status,case,stock_shares,cash_account,initial_cost,payoff_up,payoff_down,zero_initial_cost,nonnegative_payoffs,strict_gain_in_some_state,verified,message
+baseline_call,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+baseline_put,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+baseline_digital,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+deep_itm_call,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+deep_otm_call,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+zero_strike_call,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+generic_negative_payoff,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+negative_rate_no_arbitrage,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+both_multipliers_above_one,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+both_multipliers_below_one,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+r_below_d,arbitrage_R_le_d,A_R_le_d,1.0,-100.0,0.0,23.0,3.0,True,True,True,True,"buy 1 share, borrow S0 in the cash account; verified: zero cost, nonnegative payoffs, strict gain in at least one state."
+r_above_u,arbitrage_R_ge_u,B_R_ge_u,-1.0,100.0,0.0,5.0,12.0,True,True,True,True,"short 1 share, deposit S0 in the cash account; verified: zero cost, nonnegative payoffs, strict gain in at least one state."
+r_equal_d_exact,arbitrage_R_le_d,A_R_le_d,1.0,-100.0,0.0,10.0,0.0,True,True,True,True,"buy 1 share, borrow S0 in the cash account; verified: zero cost, nonnegative payoffs, strict gain in at least one state."
+r_equal_u_exact,arbitrage_R_ge_u,B_R_ge_u,-1.0,100.0,0.0,0.0,20.0,True,True,True,True,"short 1 share, deposit S0 in the cash account; verified: zero cost, nonnegative payoffs, strict gain in at least one state."
+near_boundary_inside,near_boundary_unresolved,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,"No stock/cash arbitrage candidate: R lies (narrowly) inside (d, u); status remains unresolved."
+near_boundary_outside,near_boundary_unresolved,A_R_le_d,1.0,-100.0,0.0,10.0,1e-10,True,True,True,True,"Candidate portfolio (buy 1 share, borrow S0 in the cash account) constructed for an unresolved near-boundary market; payoff checks pass."
+narrow_valid_separation,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+narrow_separation_warning,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+quote_overpriced_call,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+quote_underpriced_call,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+quote_matching_call,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+quote_overpriced_put,arbitrage_free,,0.0,0.0,0.0,0.0,0.0,True,True,False,False,No stock/cash arbitrage: d < R < u.
+quote_in_arbitrage_market,arbitrage_R_ge_u,B_R_ge_u,-1.0,100.0,0.0,5.0,12.0,True,True,True,True,"short 1 share, deposit S0 in the cash account; verified: zero cost, nonnegative payoffs, strict gain in at least one state."
